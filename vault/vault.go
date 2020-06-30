@@ -1,6 +1,7 @@
 package vault
 
 import (
+	"fmt"
 	"os"
 
 	"github.com/hafslundnett/hn-config-lib-go/service"
@@ -21,10 +22,35 @@ type Vault struct {
 // New initiaizes a new Vault prepares it for interacting with secrets.
 // It reads configuration information from the environment, configures a HTTP client and gets an authentification token to get secrets.
 func New() (SecretsManager, error) {
+	return newCore()
+}
+
+// NewVerbose initiaizes a new Vault prepares it for interacting with secrets. Upon
+// It reads configuration information from the environment, configures a HTTP client and gets an authentification token to get secrets.
+func NewVerbose() (SecretsManager, error) {
+	v, err := newCore()
+	if err != nil {
+		return nil, err
+	}
+	printInfo(v)
+	return v, nil
+}
+
+func newCore() (*Vault, error) {
 	vault := new(Vault)
 	cert := os.Getenv(envars["cert"])
 	err := service.Setup(vault, cert)
 	return vault, err
+}
+
+func printInfo(v *Vault) {
+	fmt.Printf("Vault address is %s\n", v.Config.Addr)
+	isGitHub := v.Config.GithubToken != ""
+	if isGitHub {
+		fmt.Print("Login method is GitHub.\n")
+	} else {
+		fmt.Print("Login method is GitHub.\n")
+	}
 }
 
 // ConnectToServer performs neccessary setup for connections to the external HID service
