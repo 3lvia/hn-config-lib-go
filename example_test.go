@@ -1,11 +1,10 @@
 package lib
 
 import (
-	"log"
-	"net/http"
-
 	"github.com/hafslundnett/hn-config-lib-go/hid"
 	"github.com/hafslundnett/hn-config-lib-go/vault"
+	"log"
+	"net/http"
 )
 
 // Example executes examples of the three core usecases of this package.
@@ -82,3 +81,15 @@ func hidAPIexample(myRequest *http.Request) {
 	// Handle the request
 	log.Println("The request was successfull")
 }
+
+//func Test_initialize(t *testing.T)  {
+//
+//	//os.Setenv("VAULT_ADDR", "https://vault.hafslundnett.io")
+//	os.Setenv("VAULT_ADDR", "https://vault.elvia.io")
+//
+//	v, err := vault.New()
+//	if err != nil {
+//		t.Errorf("unexpected error: %v", err)
+//	}
+//	_ = v
+//}

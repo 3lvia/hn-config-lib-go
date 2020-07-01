@@ -1,6 +1,7 @@
 package vault
 
 import (
+	"fmt"
 	"net/http"
 
 	"github.com/pkg/errors"
@@ -27,7 +28,7 @@ func (vault *Vault) GetSecret(path string) (*Secret, error) {
 
 	secret := new(Secret)
 	if err = vault.do(req, &secret); err != nil {
-		return nil, errors.Wrap(err, "while getting secret from Vault")
+		return nil, errors.Wrap(err, fmt.Sprintf("while getting secret from Vault. path: %s url: %s", path, url))
 	}
 
 	return secret, nil
