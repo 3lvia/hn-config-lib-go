@@ -19,7 +19,7 @@ type Secret struct {
 // GetSecret returns the secret from the provided path.
 // In case of 403 response from server, the credentials will be renewed and the request retried once.
 func (vault *Vault) GetSecret(path string) (*Secret, error) {
-	url := makeURL(vault.Config.Addr, path)
+	url := makeURL(vault.Config.Addr, path, vault.Config.APIVersion)
 
 	req, err := secretsReq(url, vault.Token.Auth.ClientToken)
 	if err != nil {
@@ -34,7 +34,7 @@ func (vault *Vault) GetSecret(path string) (*Secret, error) {
 	return secret, nil
 }
 
-// secretsReq reurns a http request for getting secrets from Vault
+// secretsReq returns a http request for getting secrets from Vault
 func secretsReq(url, auth string) (*http.Request, error) {
 	req, err := http.NewRequest(http.MethodGet, url, nil)
 	if err != nil {
