@@ -55,7 +55,7 @@ func authReq(cfg Config) (*http.Request, error) {
 		return nil, errors.Wrap(err, "while converting token to buffer")
 	}
 
-	url := makeURL(cfg.Addr, path, cfg.APIVersion)
+	url := makeURL(cfg.Addr, path, "v1")
 
 	req, err := http.NewRequest(http.MethodPost, url, body)
 	if err != nil {
