@@ -5,8 +5,6 @@ import (
 	"github.com/hafslundnett/hn-config-lib-go/vault"
 	"log"
 	"net/http"
-	"os"
-	"testing"
 )
 
 // Example executes examples of the three core usecases of this package.
