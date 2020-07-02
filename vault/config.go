@@ -14,6 +14,7 @@ var envars = map[string]string{
 	"account": "SERVICE_ACCOUNT_PATH",
 	"mount":   "MOUNT_PATH",
 	"role":    "ROLE",
+	"apiversion": "VAULT_API_VERSION",
 }
 
 // Config contains the configuration information needed to do the initial setup and renewal of a Vault service
@@ -23,6 +24,7 @@ type Config struct {
 	K8ServicePath string
 	K8MountPath   string
 	K8Role        string
+	APIVersion    string
 
 	Client libhttp.Client
 }
@@ -61,6 +63,12 @@ func (vault *Vault) Configure(client libhttp.Client) error {
 	vault.Addr = addr
 	vault.GithubToken = githubToken
 	vault.Client = client
+
+	apiVersion := os.Getenv(envars["apiversion"])
+	if apiVersion == "" {
+		apiVersion = "v1"
+	}
+	vault.APIVersion = apiVersion
 
 	return nil
 }
