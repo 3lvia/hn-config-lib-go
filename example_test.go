@@ -5,6 +5,8 @@ import (
 	"github.com/hafslundnett/hn-config-lib-go/vault"
 	"log"
 	"net/http"
+	"os"
+	"testing"
 )
 
 // Example executes examples of the three core usecases of this package.
@@ -91,5 +93,12 @@ func hidAPIexample(myRequest *http.Request) {
 //	if err != nil {
 //		t.Errorf("unexpected error: %v", err)
 //	}
-//	_ = v
+//
+//	secret, err := v.GetSecret("realtimeunits/kv/application")
+//
+//	if err != nil {
+//		t.Errorf("unexpected error: %v", err)
+//	}
+//
+//	_ = secret
 //}
