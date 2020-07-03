@@ -3,7 +3,7 @@ package vault
 import (
 	"os"
 
-	"github.com/hafslundnett/hn-config-lib-go/libhttp"
+	"github.com/3lvia/hn-config-lib-go/libhttp"
 
 	"github.com/pkg/errors"
 )
@@ -24,7 +24,6 @@ type Config struct {
 	K8ServicePath string
 	K8MountPath   string
 	K8Role        string
-	APIVersion    string
 
 	Client libhttp.Client
 }
@@ -64,11 +63,6 @@ func (vault *Vault) Configure(client libhttp.Client) error {
 	vault.GithubToken = githubToken
 	vault.Client = client
 
-	apiVersion := os.Getenv(envars["apiversion"])
-	if apiVersion == "" {
-		apiVersion = "v1"
-	}
-	vault.APIVersion = apiVersion
 
 	return nil
 }

@@ -4,7 +4,7 @@ import (
 	"net/http"
 	"os"
 
-	"github.com/hafslundnett/hn-config-lib-go/service"
+	"github.com/3lvia/hn-config-lib-go/service"
 )
 
 // IDManager represents a service that is able to provide clients with authoriation tokens with the GetToken function,

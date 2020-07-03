@@ -1,8 +1,8 @@
 package lib
 
 import (
-	"github.com/hafslundnett/hn-config-lib-go/hid"
-	"github.com/hafslundnett/hn-config-lib-go/vault"
+	"github.com/3lvia/hn-config-lib-go/hid"
+	"github.com/3lvia/hn-config-lib-go/vault"
 	"log"
 	"net/http"
 )
@@ -84,7 +84,7 @@ func hidAPIexample(myRequest *http.Request) {
 
 //func Test_initialize(t *testing.T)  {
 //
-//	//os.Setenv("VAULT_ADDR", "https://vault.hafslundnett.io")
+//	//os.Setenv("VAULT_ADDR", "https://vault.3lvia.io")
 //	os.Setenv("VAULT_ADDR", "https://vault.elvia.io")
 //
 //	v, err := vault.New()

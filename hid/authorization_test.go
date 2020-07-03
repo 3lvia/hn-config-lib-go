@@ -6,8 +6,8 @@ import (
 	"testing"
 	"time"
 
-	"github.com/hafslundnett/hn-config-lib-go/testing/assert"
-	"github.com/hafslundnett/hn-config-lib-go/testing/mock"
+	"github.com/3lvia/hn-config-lib-go/testing/assert"
+	"github.com/3lvia/hn-config-lib-go/testing/mock"
 
 	"github.com/dgrijalva/jwt-go"
 )

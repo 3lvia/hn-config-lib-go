@@ -3,7 +3,7 @@ package hid
 import (
 	"os"
 
-	"github.com/hafslundnett/hn-config-lib-go/libhttp"
+	"github.com/3lvia/hn-config-lib-go/libhttp"
 	"github.com/pkg/errors"
 )
 

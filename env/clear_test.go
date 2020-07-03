@@ -4,7 +4,7 @@ import (
 	"os"
 	"testing"
 
-	"github.com/hafslundnett/hn-config-lib-go/testing/assert"
+	"github.com/3lvia/hn-config-lib-go/testing/assert"
 )
 
 func Test_Clear(t *testing.T) {

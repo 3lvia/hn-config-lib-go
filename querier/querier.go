@@ -5,7 +5,7 @@ import (
 	b64 "encoding/base64"
 
 	"cloud.google.com/go/bigquery"
-	"github.com/hafslundnett/hn-config-lib-go/vault"
+	"github.com/3lvia/hn-config-lib-go/vault"
 	"golang.org/x/oauth2/google"
 )
 

@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/hafslundnett/hn-config-lib-go/service"
+	"github.com/3lvia/hn-config-lib-go/service"
 )
 
 // SecretsManager represents a service that is able to provide clients with a secret stored at a privded path.

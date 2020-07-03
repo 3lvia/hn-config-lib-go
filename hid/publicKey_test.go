@@ -3,8 +3,8 @@ package hid
 import (
 	"testing"
 
-	"github.com/hafslundnett/hn-config-lib-go/testing/assert"
-	"github.com/hafslundnett/hn-config-lib-go/testing/mock"
+	"github.com/3lvia/hn-config-lib-go/testing/assert"
+	"github.com/3lvia/hn-config-lib-go/testing/mock"
 )
 
 func Test_HID_newPKS(t *testing.T) {

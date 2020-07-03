@@ -1,6 +1,6 @@
 # HN Config Lib GO  
   
-GO-implementation of Hashicorp Vault, HID and additional related helper libraries for HafslundNett  
+GO-implementation of Hashicorp Vault, HID and additional related helper libraries for 3lvia  
   
 UNDER DEVELOPMENT
 
@@ -19,7 +19,7 @@ VAULT_CACERT: If the Vault does not have a publicly signed Ca certificate, you m
 
 ```GO
 import (
-    "hafslundnett/hn-config-lib-go/vault"
+    "3lvia/hn-config-lib-go/vault"
     "log"
 )
 

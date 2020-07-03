@@ -3,9 +3,9 @@ package vault
 import (
 	"testing"
 
-	"github.com/hafslundnett/hn-config-lib-go/env"
-	"github.com/hafslundnett/hn-config-lib-go/testing/assert"
-	"github.com/hafslundnett/hn-config-lib-go/testing/mock"
+	"github.com/3lvia/hn-config-lib-go/env"
+	"github.com/3lvia/hn-config-lib-go/testing/assert"
+	"github.com/3lvia/hn-config-lib-go/testing/mock"
 )
 
 var testenv = []string{

@@ -4,7 +4,7 @@ import (
 	"net/http"
 	"testing"
 
-	"github.com/hafslundnett/hn-config-lib-go/testing/assert"
+	"github.com/3lvia/hn-config-lib-go/testing/assert"
 )
 
 func TestRequest(t *testing.T) {

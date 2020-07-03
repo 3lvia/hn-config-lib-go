@@ -6,7 +6,7 @@ import (
 	"io"
 	"net/http"
 
-	"github.com/hafslundnett/hn-config-lib-go/cert"
+	"github.com/3lvia/hn-config-lib-go/cert"
 
 	"github.com/pkg/errors"
 	"golang.org/x/net/http2"

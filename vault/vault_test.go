@@ -3,9 +3,9 @@ package vault
 import (
 	"testing"
 
-	"github.com/hafslundnett/hn-config-lib-go/env"
-	"github.com/hafslundnett/hn-config-lib-go/testing/assert"
-	"github.com/hafslundnett/hn-config-lib-go/testing/mock"
+	"github.com/3lvia/hn-config-lib-go/env"
+	"github.com/3lvia/hn-config-lib-go/testing/assert"
+	"github.com/3lvia/hn-config-lib-go/testing/mock"
 )
 
 // replaceEnv compacts environment variables handling to increase readability of tests.

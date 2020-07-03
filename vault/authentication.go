@@ -1,7 +1,6 @@
 package vault
 
 import (
-	"fmt"
 	"io"
 	"net/http"
 
@@ -55,7 +54,7 @@ func authReq(cfg Config) (*http.Request, error) {
 		return nil, errors.Wrap(err, "while converting token to buffer")
 	}
 
-	url := makeURL(cfg.Addr, path, "v1")
+	url := makeURL(cfg.Addr, path)
 
 	req, err := http.NewRequest(http.MethodPost, url, body)
 	if err != nil {
@@ -79,7 +78,6 @@ func authBody(cfg Config) (io.Reader, string, error) {
 }
 
 // makeURL returns a correctly formatted url for Vault http requests
-func makeURL(address, path, apiVersion string) string {
-	v := fmt.Sprintf("/%s/", apiVersion)
-	return address + v + path
+func makeURL(address, path string) string {
+	return address + "/v1/" + path
 }

@@ -5,8 +5,8 @@ import (
 	"net/http"
 	"os"
 
-	"github.com/hafslundnett/hn-config-lib-go/hid"
-	"github.com/hafslundnett/hn-config-lib-go/vault"
+	"github.com/3lvia/hn-config-lib-go/hid"
+	"github.com/3lvia/hn-config-lib-go/vault"
 )
 
 // demo is a runnable version of the example_test.go that requires appropriate env vars to be set before executing. See readme for documentation on these.
