@@ -126,3 +126,24 @@ func (m *mockSecretGetter) SetDefaultGoogleCredentials(path, key string) error {
 	return nil
 }
 
+func Test_prepareSecretPath(t *testing.T) {
+	type args struct {
+		p string
+	}
+	tests := []struct {
+		name string
+		args args
+		want string
+	}{
+		{"ok", args{"monitoring/kv/data/storage/cost"}, "monitoring/kv/data/storage/cost"},
+		{"replace", args{"monitoring/kv/storage/cost"}, "monitoring/kv/data/storage/cost"},
+		{"noKV", args{"does/not/have/it"}, "does/not/have/it"},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := prepareSecretPath(tt.args.p); got != tt.want {
+				t.Errorf("prepareSecretPath() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}

@@ -2,6 +2,7 @@ package vault
 
 import (
 	"log"
+	"strings"
 	"time"
 )
 
@@ -132,7 +133,7 @@ func (m singleSecretMaintainer) getSecret() (UpdatedSecret, bool, time.Duration,
 
 	secrets := map[string]*Secret{m.path: secret}
 	if sp, ok := secret.Data["secret-path"]; ok {
-		innerSecret, err := m.v.GetSecret(sp)
+		innerSecret, err := m.v.GetSecret(prepareSecretPath(sp))
 		if err == nil && innerSecret != nil {
 			secrets[sp] = innerSecret
 			if innerSecret.Renewable {
@@ -150,6 +151,17 @@ func (m singleSecretMaintainer) getSecret() (UpdatedSecret, bool, time.Duration,
 		Secrets: secrets,
 	}
 	return us, renewable, ttl, nil
+}
+
+func prepareSecretPath(p string) string {
+	if strings.Contains(p, "/kv/data/") {
+		return p
+	}
+	arr := strings.Split(p, "/kv/")
+	if len(arr) < 2 {
+		return p
+	}
+	return arr[0] + "/kv/data/" + arr[1]
 }
 
 func getWaitDuration(d time.Duration) time.Duration {
