@@ -25,7 +25,7 @@ func (vault *Vault) setDefaultGoogleCreds(path, key string, saver fileTextSaver)
 	}
 	var encoded string
 	var ok bool
-	if encoded, ok = secret.Data[key]; !ok {
+	if encoded, ok = secret.GetData()[key].(string); !ok {
 		return errors.New(fmt.Sprintf("no key %s found in secret at %s", key, path))
 	}
 	decoded, err := base64.StdEncoding.DecodeString(encoded)

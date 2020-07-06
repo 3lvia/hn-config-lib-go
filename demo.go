@@ -33,7 +33,7 @@ func vaultDemo() {
 	}
 
 	// Do something with the secret
-	log.Println(mySecret.RequestID)
+	log.Println(mySecret.GetRequestID())
 }
 
 func hidClientDemo() *http.Request {

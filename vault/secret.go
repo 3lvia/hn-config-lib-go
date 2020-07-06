@@ -7,18 +7,51 @@ import (
 	"github.com/pkg/errors"
 )
 
-// Secret contains all data and metadata from a Vault secret
-type Secret struct {
-	RequestID     string            `json:"request_id"`
-	LeaseID       string            `json:"lease_id"`
-	Renewable     bool              `json:"renewable"`
-	LeaseDuration int               `json:"lease_duration"`
-	Data          map[string]string `json:"data"`
+type Secret interface {
+	GetRequestID() string
+	GetLeaseID() string
+	IsRenewable() bool
+	GetLeaseDuration() int
+	GetData() map[string]interface{}
+	GetMetadata() map[string]interface{}
+}
+
+// secret contains all data and metadata from a Vault secret
+type secret struct {
+	RequestID     string                            `json:"request_id"`
+	LeaseID       string                            `json:"lease_id"`
+	Renewable     bool                              `json:"renewable"`
+	LeaseDuration int                               `json:"lease_duration"`
+	Data          map[string]map[string]interface{} `json:"data"`
+}
+
+func (s *secret) GetRequestID() string {
+	return s.RequestID
+}
+
+func (s *secret) GetLeaseID() string {
+	return s.LeaseID
+}
+
+func (s *secret) IsRenewable() bool {
+	return s.Renewable
+}
+
+func (s *secret) GetLeaseDuration() int {
+	return s.LeaseDuration
+}
+
+func (s *secret) GetData() map[string]interface{} {
+	return s.Data["data"]
+}
+
+func (s *secret) GetMetadata() map[string]interface{} {
+	return s.Data["metadata"]
 }
 
 // GetSecret returns the secret from the provided path.
 // In case of 403 response from server, the credentials will be renewed and the request retried once.
-func (vault *Vault) GetSecret(path string) (*Secret, error) {
+func (vault *Vault) GetSecret(path string) (Secret, error) {
 	url := makeURL(vault.Config.Addr, path)
 
 	req, err := secretsReq(url, vault.Token.Auth.ClientToken)
@@ -26,7 +59,7 @@ func (vault *Vault) GetSecret(path string) (*Secret, error) {
 		return nil, err
 	}
 
-	secret := new(Secret)
+	secret := new(secret)
 	if err = vault.do(req, &secret); err != nil {
 		return nil, errors.Wrap(err, fmt.Sprintf("while getting secret from Vault. path: %s url: %s", path, url))
 	}

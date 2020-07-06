@@ -1,6 +1,7 @@
 package vault
 
 import (
+	"encoding/json"
 	"net/http"
 	"testing"
 
@@ -12,19 +13,20 @@ func TestVault_GetSecret(t *testing.T) {
 	tests := []struct {
 		name      string
 		vault     Vault
-		want      *Secret
+		want      Secret
 		wantErr   bool
 		errWanted string
 	}{
 		{
 			name:      "forbidden access",
 			vault:     Vault{Config: Config{Client: mock.ClientForbidden}},
+			want:      nil,
 			wantErr:   true,
 			errWanted: "403: forbidden",
 		}, {
 			name:    "access granted",
 			vault:   Vault{Config: Config{Client: mock.Client}},
-			want:    &Secret{},
+			want:    &secret{},
 			wantErr: false,
 		},
 	}
@@ -91,3 +93,22 @@ func TestVault_do(t *testing.T) {
 		})
 	}
 }
+
+func Test_deserializeFromJSON(t *testing.T) {
+	// Arrange
+	var secret secret
+
+	// Act
+	err := json.Unmarshal([]byte(secretResponse), &secret)
+	if err != nil {
+		t.Errorf("unexpected error while deserializing %v", err)
+	}
+	serviceAccountKey := secret.Data["data"]["service-account-key"]
+
+	// Assert
+	if serviceAccountKey != "my-secret-key" {
+		t.Errorf("unexpected service account key %s", secret.Data["data"]["servic-account-key"])
+	}
+}
+
+const secretResponse string  = `{"request_id":"464ac0ff-fa12-13ca-9e6d-ca3be05ac802","lease_id":"","renewable":false,"lease_duration":0,"data":{"data":{"service-account-key":"my-secret-key"},"metadata":{"created_time":"2020-06-02T08:26:38.487373863Z","deletion_time":"","destroyed":false,"version":1}},"wrap_info":null,"warnings":null,"auth":null}`

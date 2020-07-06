@@ -33,15 +33,15 @@ type SecretSubscriptionSpec struct {
 // UpdatedSecret a new version of a secret
 type UpdatedSecret struct {
 	Path    string
-	Secrets map[string]*Secret
+	Secrets map[string]Secret
 }
 
 // GetAllData combines all data in all secrets to a single map
 func (us UpdatedSecret) GetAllData() map[string]string {
 	res := map[string]string{}
 	for _, m := range us.Secrets {
-		for k, v := range m.Data {
-			res[k] = v
+		for k, v := range m.GetData() {
+			res[k] = v.(string)
 		}
 	}
 	return res
@@ -126,19 +126,19 @@ func (m singleSecretMaintainer) getSecret() (UpdatedSecret, bool, time.Duration,
 		log.Printf("Error while getting secret %s :: %v", m.path, err)
 		return UpdatedSecret{}, false, time.Second * 0, err
 	}
-	if secret.Renewable {
+	if secret.IsRenewable() {
 		renewable = true
-		ttl = time.Duration(secret.LeaseDuration) * time.Millisecond
+		ttl = time.Duration(secret.GetLeaseDuration()) * time.Millisecond
 	}
 
-	secrets := map[string]*Secret{m.path: secret}
-	if sp, ok := secret.Data["secret-path"]; ok {
-		innerSecret, err := m.v.GetSecret(prepareSecretPath(sp))
+	secrets := map[string]Secret{m.path: secret}
+	if sp, ok := secret.GetData()["secret-path"]; ok {
+		innerSecret, err := m.v.GetSecret(prepareSecretPath(sp.(string)))
 		if err == nil && innerSecret != nil {
-			secrets[sp] = innerSecret
-			if innerSecret.Renewable {
+			secrets[sp.(string)] = innerSecret
+			if innerSecret.IsRenewable() {
 				renewable = true
-				ttl2 := time.Duration(innerSecret.LeaseDuration) * time.Millisecond
+				ttl2 := time.Duration(innerSecret.GetLeaseDuration()) * time.Millisecond
 				if ttl2 < ttl {
 					ttl = ttl2
 				}

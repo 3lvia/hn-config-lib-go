@@ -8,13 +8,13 @@ import (
 func Test_singleSecretMaintainer_start_notRenewable_returnsAtOnce(t *testing.T) {
 	// Arrange
 	receivedSecrets := []UpdatedSecret{}
-	s := &Secret{
+	s := &secret{
 		Renewable:     false,
 		LeaseDuration: 0,
 	}
 	g := &mockSecretGetter{
 		invocationCount: 0,
-		returnSecrets:   []*Secret{s},
+		returnSecrets:   []Secret{s},
 	}
 	c := make(chan UpdatedSecret)
 	p := "test/kv/secret"
@@ -41,17 +41,17 @@ func Test_singleSecretMaintainer_start_notRenewable_returnsAtOnce(t *testing.T) 
 
 func Test_singleSecretMaintainer_start_renewable_iteratesAsExpected(t *testing.T) {
 	// Arrange
-	s1 := &Secret{
+	s1 := &secret{
 		Renewable:     true,
 		LeaseDuration: 10100,
 	}
-	s2 := &Secret{
+	s2 := &secret{
 		Renewable:     true,
 		LeaseDuration: -1,
 	}
 	g := &mockSecretGetter{
 		invocationCount: 0,
-		returnSecrets:   []*Secret{s1, s2},
+		returnSecrets:   []Secret{s1, s2},
 	}
 	c := make(chan UpdatedSecret)
 	p := "test/kv/secret"
@@ -107,13 +107,13 @@ func Test_getWaitDuration(t *testing.T) {
 
 type mockSecretGetter struct {
 	invocationCount int
-	returnSecrets   []*Secret
+	returnSecrets   []Secret
 }
 
-func (m *mockSecretGetter) GetSecret(path string) (*Secret, error) {
+func (m *mockSecretGetter) GetSecret(path string) (Secret, error) {
 	if len(m.returnSecrets) == 1 {
 		ss := m.returnSecrets[0]
-		m.returnSecrets = []*Secret{}
+		m.returnSecrets = []Secret{}
 		return ss, nil
 	}
 
