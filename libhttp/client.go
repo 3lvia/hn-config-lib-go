@@ -3,8 +3,11 @@ package libhttp
 import (
 	"crypto/tls"
 	"encoding/json"
+	"fmt"
 	"io"
 	"net/http"
+	"os"
+	"strings"
 
 	"github.com/3lvia/hn-config-lib-go/cert"
 
@@ -29,14 +32,22 @@ type ClientHolder struct {
 // HTTP2 is forced; TLS12 or greater; additional RootCAs from provided files and from predefined authorities.
 // Takes none or more optional files to add as certificates to the client.
 func NewClient(certificates ...string) (*ClientHolder, error) {
-	pool, err := cert.MakePool(certificates...)
-	if err != nil {
-		return nil, err
-	}
 
-	tlsConfig := &tls.Config{
-		MinVersion: tls.VersionTLS12,
-		RootCAs:    pool.Certs,
+
+	var tlsConfig *tls.Config
+
+	if strings.ToLower(os.Getenv("INSECURE_SKIP_TLS_VERIFY")) == "true" {
+		fmt.Print("WARNING: Using insecure_skip_tls_verify mode! This should only happen during development.\n")
+		tlsConfig = &tls.Config{InsecureSkipVerify: true}
+	} else {
+		pool, err := cert.MakePool(certificates...)
+		if err != nil {
+			return nil, err
+		}
+		tlsConfig = &tls.Config{
+			MinVersion: tls.VersionTLS12,
+			RootCAs:    pool.Certs,
+		}
 	}
 
 	transport := &http2.Transport{

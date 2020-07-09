@@ -14,7 +14,6 @@ var envars = map[string]string{
 	"account": "SERVICE_ACCOUNT_PATH",
 	"mount":   "MOUNT_PATH",
 	"role":    "ROLE",
-	"apiversion": "VAULT_API_VERSION",
 }
 
 // Config contains the configuration information needed to do the initial setup and renewal of a Vault service
