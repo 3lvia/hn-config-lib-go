@@ -1,6 +1,8 @@
 package vault
 
 import (
+	"log"
+	"os"
 	"testing"
 
 	"github.com/3lvia/hn-config-lib-go/env"
@@ -55,4 +57,23 @@ func Test_New(t *testing.T) {
 
 	err = env.Reset()
 	assert.NoErr(t, err)
+}
+
+func Test_New_SetupAndRenewGcpCredentials(t *testing.T) {
+	// Make reusable vault item
+	myVault, err := New()
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	// Get a secret from the vault
+	err = myVault.SetupAndRenewGcpCredentials("monitoring", "storage_admin", 60)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	creds := os.Getenv("GOOGLE_APPLICATION_CREDENTIALS")
+	if len(creds) == 0 {
+		t.Errorf("len(creds) == 0")
+	}
 }

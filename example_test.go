@@ -18,7 +18,7 @@ func Example() {
 
 // vaultExample represents the simplest way to get a secret from Vault.
 // Requires, at a minimum, that env vars VAULT_ADDR and either GITHUB_TOKEN or the K8 related ones are set. See readme for more information.
-func vaultExample() *vault.Secret {
+func vaultExample() vault.Secret {
 	// Make reusable vault item
 	myVault, err := vault.New()
 	if err != nil {
@@ -37,7 +37,7 @@ func vaultExample() *vault.Secret {
 
 // hidClientExample represents the client side of a request with HID authorization. User and secret for HID.GetToken may be from a wide variety of sources.
 // Requires, at a minimum, that env var HID_ADDR is set.
-func hidClientExample(mySecret *vault.Secret) *http.Request {
+func hidClientExample(mySecret vault.Secret) *http.Request {
 	// Make reusable HID item
 	myHID, err := hid.New()
 	if err != nil {
@@ -45,7 +45,7 @@ func hidClientExample(mySecret *vault.Secret) *http.Request {
 	}
 
 	// Get a bearer token from HID
-	myToken, err := myHID.GetToken("username", mySecret.Data["key"])
+	myToken, err := myHID.GetToken("username", mySecret.GetData()["key"].(string))
 	if err != nil {
 		log.Fatal(err)
 	}

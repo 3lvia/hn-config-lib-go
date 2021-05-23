@@ -111,4 +111,4 @@ func Test_deserializeFromJSON(t *testing.T) {
 	}
 }
 
-const secretResponse string  = `{"request_id":"464ac0ff-fa12-13ca-9e6d-ca3be05ac802","lease_id":"","renewable":false,"lease_duration":0,"data":{"data":{"service-account-key":"my-secret-key"},"metadata":{"created_time":"2020-06-02T08:26:38.487373863Z","deletion_time":"","destroyed":false,"version":1}},"wrap_info":null,"warnings":null,"auth":null}`
+const secretResponse string = `{"request_id":"464ac0ff-fa12-13ca-9e6d-ca3be05ac802","lease_id":"","renewable":false,"lease_duration":0,"data":{"data":{"service-account-key":"my-secret-key"},"metadata":{"created_time":"2020-06-02T08:26:38.487373863Z","deletion_time":"","destroyed":false,"version":1}},"wrap_info":null,"warnings":null,"auth":null}`
