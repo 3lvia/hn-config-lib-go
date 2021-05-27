@@ -11,6 +11,7 @@ import (
 type SecretsManager interface {
 	GetSecret(path string) (Secret, error)
 	SetDefaultGoogleCredentials(path, key string) error
+	SetupAndRenewGcpCredentials(system string, roleset string, ttl int) error
 }
 
 // Vault contains all information needed to get and interact with Vault secrets, after initial configuration.

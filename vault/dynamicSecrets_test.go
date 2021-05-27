@@ -38,7 +38,6 @@ func Test_singleSecretMaintainer_start_notRenewable_returnsAtOnce(t *testing.T) 
 	}
 }
 
-
 func Test_singleSecretMaintainer_start_renewable_iteratesAsExpected(t *testing.T) {
 	// Arrange
 	s1 := &secret{
@@ -123,6 +122,10 @@ func (m *mockSecretGetter) GetSecret(path string) (Secret, error) {
 }
 
 func (m *mockSecretGetter) SetDefaultGoogleCredentials(path, key string) error {
+	return nil
+}
+
+func (m *mockSecretGetter) SetupAndRenewGcpCredentials(system string, roleset string, ttl int) error {
 	return nil
 }
 
