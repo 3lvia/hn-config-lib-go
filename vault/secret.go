@@ -2,9 +2,7 @@ package vault
 
 import (
 	"fmt"
-	"io/ioutil"
 	"net/http"
-	"os"
 
 	"github.com/pkg/errors"
 )
@@ -119,64 +117,3 @@ func (vault Vault) do2(req *http.Request, dst interface{}) error {
 func (vault Vault) do(req *http.Request, dst interface{}) error {
 	return vault.Client.Do(req, &dst)
 }
-
-type rolesets struct {
-	Data map[string][]string `json:"data"`
-}
-
-type gcpCredentials struct {
-	LeaseDuration int                `json:"lease_duration"`
-	Data          gcpCredentialsData `json:"data"`
-}
-
-type gcpCredentialsData struct {
-	PrivateKeyData string `json:"private_key_data"`
-}
-
-// GetSecret returns the secret from the provided path.
-// In case of 403 response from server, the credentials will be renewed and the request retried once.
-func (vault *Vault) SetupAndRenewGcpCredentials(system string, roleset string, ttl int) error {
-	err := validateRoleset(vault, system)
-	if err != nil {
-		return err
-	}
-
-	url := makeURL(vault.Config.Addr, fmt.Sprintf("%s/gcp/key/%s", system, roleset))
-	fmt.Printf("url %s\n", url)
-
-	req, err := secretsReq(url, vault.Token.Auth.ClientToken)
-	if err != nil {
-		return err
-	}
-
-	gcpCredentials := new(gcpCredentials)
-	if err = vault.do(req, &gcpCredentials); err != nil {
-		return errors.Wrap(err, fmt.Sprintf("while getting gcpCredentials from Vault. system: %s url: %s", system, url))
-	}
-	fmt.Printf("LeaseDuration %d\n", gcpCredentials.LeaseDuration)
-	// fmt.Printf("PrivateKeyData %s\n", gcpCredentials.Data.PrivateKeyData)
-
-	credsFilename := fmt.Sprintf("%s/go-creds.json", os.TempDir())
-	err = ioutil.WriteFile(credsFilename, []byte(gcpCredentials.Data.PrivateKeyData), 0600)
-
-	os.Setenv("GOOGLE_APPLICATION_CREDENTIALS", credsFilename)
-	return nil
-}
-
-func validateRoleset(vault *Vault, system string) error {
-	url := makeURL(vault.Config.Addr, fmt.Sprintf("%s/gcp/rolesets?list=true", system))
-
-	req, err := secretsReq(url, vault.Token.Auth.ClientToken)
-	if err != nil {
-		return err
-	}
-
-	rolesets := new(rolesets)
-	if err = vault.do(req, &rolesets); err != nil {
-		return errors.Wrap(err, fmt.Sprintf("while getting rolesets from Vault. system: %s url: %s", system, url))
-	}
-	fmt.Printf("Rolesets %s\n", rolesets.Data["keys"])
-	return nil
-}
-
-//{"request_id":"2bf836c8-ead6-cf57-b4c5-21644a0351a1","lease_id":"","renewable":false,"lease_duration":0,"data":{"keys":["storage_admin"]},"wrap_info":null,"warnings":null,"auth":null}

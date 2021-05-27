@@ -1,10 +1,11 @@
 package lib
 
 import (
-	"github.com/3lvia/hn-config-lib-go/hid"
-	"github.com/3lvia/hn-config-lib-go/vault"
 	"log"
 	"net/http"
+
+	"github.com/3lvia/hn-config-lib-go/hid"
+	"github.com/3lvia/hn-config-lib-go/vault"
 )
 
 // Example executes examples of the three core usecases of this package.
