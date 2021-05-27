@@ -24,6 +24,10 @@ type gcpCredentialsData struct {
 	PrivateKeyData string `json:"private_key_data"`
 }
 
+// SetupAndRenewGcpCredentials uses Vault to create a dynamic secret and sets the
+// environment variable GOOGLE_APPLICATION_CREDENTIALS which all gcp client libraries use.
+// The system and roleset determines what gcp resource you can access
+// The gcp roleset must be set up in terraform using the module terraform-vault-gcp_secret_roleset
 func (vault *Vault) SetupAndRenewGcpCredentials(system string, roleset string, ttl int) error {
 	err := validateRoleset(vault, system, roleset)
 	if err != nil {
