@@ -1,46 +1,19 @@
-# HN Config Lib GO  
-  
-GO-implementation of Hashicorp Vault, HID and additional related helper libraries for 3lvia  
-  
-UNDER DEVELOPMENT
+# Elvia Configuration Library (Golang)
 
-## Examples  
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-example_test.go
+Golang implementation of helper libraries for Elvia organization, which supports HashiCorp Vault, [ElvID](https://github.com/3lvia/elvid) and additional related services.
 
-Examples:  
-Make sure environment variables are set before running.  
-See demo.go for a more comprehensive example  
+## Prerequisites
 
-Vault example:  
-VAULT_ADDR: The address of the vault. If not set (or empty) it will default to localhost.  
-GITHUB_TOKEN: A github login token. If not set (or empty) it will default to use K8 to login.  
-VAULT_CACERT: If the Vault does not have a publicly signed Ca certificate, you may set VAULT_CACERT as the file location of the self-signed certificate for the vault server (.pem format).
+Setup required environment variables.
 
-```GO
-import (
-    "3lvia/hn-config-lib-go/vault"
-    "log"
-)
+- `VAULT_ADDR`: The address of the vault. If it is not set (or empty), it will default to localhost.
+- `GITHUB_TOKEN`: A GitHub token. If it is not set (or empty), it will default to use Kubernetes to login.
+- `VAULT_CACERT`: If the Vault does not have a publicly signed CA certificate, you may set `VAULT_CACERT` as the file location of the self-signed certificate for the vault server with .pem format.
 
-func main() {
-    // Make reusable vault item
-    myVault, err := vault.New()
-    if err != nil {
-        log.Fatal(err)
-    }
+## Examples
 
-    // Get a secret from the vault
-    mySecret, err := myVault.GetSecret("path/to/secret")
-    if err != nil {
-        log.Fatal(err)
-    }
+See [example_test.go](example_test.go) file.
 
-    // Do something with the secret
-    log.Println(mySecret)
-}
-```
-  
-## License  
-  
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details  
+See also [demo.go](demo.go) for detailed example.

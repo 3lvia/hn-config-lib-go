@@ -1,4 +1,4 @@
-package lib
+package main
 
 import (
 	"log"
@@ -9,34 +9,49 @@ import (
 	"github.com/3lvia/hn-config-lib-go/vault"
 )
 
-// demo is a runnable version of the example_test.go that requires appropriate env vars to be set before executing. See readme for documentation on these.
-// func main() { // <- Uncomment to run
-func demo() { //    <- Comment to run
-	vaultDemo()
-
-	myRequest := hidClientDemo()
-
-	hidAPIdemo(myRequest)
+// This is a runnable version of the `example_test.go` file.
+// It needs appropriate environment variables before executing.
+// See README.md for more information.
+func main() {
+	vaultDemonstation()
+	// requestInstance := elvidClientDemonstation()
+	// elvidApiDemonstration(requestInstance)
 }
 
-func vaultDemo() {
-	// Make reusable vault item
-	myVault, err := vault.New()
+func vaultDemonstation() {
+	vaultInstance, err := vault.New()
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	// Get a secret from the vault
-	mySecret, err := myVault.GetSecret(os.Getenv("TEST_SECRET"))
+	// Example:
+	// export VAULT_SECRET_PATH_VALUE="onetime/kv/data/azurerm-redis-cache/onetime"
+	log.Println("Vault Secret Path: ", os.Getenv("VAULT_SECRET_PATH_VALUE"))
+	secretInstance, err := vaultInstance.GetSecret(os.Getenv("VAULT_SECRET_PATH_VALUE"))
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	// Do something with the secret
-	log.Println(mySecret.GetRequestID())
+	dataInstance := secretInstance.GetData()
+	log.Println("\tVault Secret Data: ", dataInstance)
+	log.Println("\t\tHostName: ", dataInstance["hostname"])
+	log.Println("\t\tPrimary Access Key: ", dataInstance["primary-access-key"])
+	log.Println("\t\tPrimary Connection String: ", dataInstance["primary-connection-string"])
+	log.Println("\t\tSecondary Access Key: ", dataInstance["secondary-access-key"])
+	log.Println("\t\tSecondary Connection String: ", dataInstance["secondary-connection-string"])
+
+	log.Println("GetLeaseDuration: ", secretInstance.GetLeaseDuration())
+	log.Println("GetLeaseID: ", secretInstance.GetLeaseID())
+	log.Println("GetMetadata: ", secretInstance.GetMetadata())
+	log.Println("\tCreatedTime: ", secretInstance.GetMetadata()["created_time"])
+	log.Println("\tDeletionTime: ", secretInstance.GetMetadata()["deletion_time"])
+	log.Println("\tDestroyed? ", secretInstance.GetMetadata()["destroyed"])
+	log.Println("\tVersion: ", secretInstance.GetMetadata()["version"])
+	log.Println("GetRequestID: ", secretInstance.GetRequestID())
+	log.Println("IsRenewable: ", secretInstance.IsRenewable())
 }
 
-func hidClientDemo() *http.Request {
+func elvidClientDemonstation() *http.Request {
 	// Make reusable HID item
 	myHID, err := hid.New()
 	if err != nil {
@@ -62,7 +77,7 @@ func hidClientDemo() *http.Request {
 	return myRequest
 }
 
-func hidAPIdemo(myRequest *http.Request) {
+func elvidApiDemonstration(myRequest *http.Request) {
 	// Make reusable HID item
 	myHID, err := hid.New()
 	if err != nil {
