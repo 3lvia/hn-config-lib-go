@@ -25,7 +25,7 @@ func vaultDemonstation() {
 	}
 
 	// Example:
-	// export VAULT_SECRET_PATH_VALUE="onetime/kv/data/azurerm-redis-cache/onetime"
+	// export VAULT_SECRET_PATH_VALUE="manual/kv/data/demonstration"
 	log.Println("Vault Secret Path: ", os.Getenv("VAULT_SECRET_PATH_VALUE"))
 	secretInstance, err := vaultInstance.GetSecret(os.Getenv("VAULT_SECRET_PATH_VALUE"))
 	if err != nil {
