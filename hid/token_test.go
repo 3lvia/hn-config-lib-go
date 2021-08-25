@@ -1,7 +1,6 @@
 package hid
 
 import (
-	"os"
 	"testing"
 
 	"github.com/3lvia/hn-config-lib-go/testing/assert"
@@ -25,12 +24,13 @@ func Test_HID_GetToken(t *testing.T) {
 			args:      args{mock.ID, mock.Secret},
 			wantErr:   true,
 			errWanted: "400 Bad Request",
-		}, {
-			name:    "test credentials",
-			args:    args{os.Getenv("TEST_HID_ID"), os.Getenv("TEST_HID_SECRET")},
-			want:    3600,
-			wantErr: false,
 		},
+		// {
+		// 	name:    "test credentials",
+		// 	args:    args{os.Getenv("TEST_HID_ID"), os.Getenv("TEST_HID_SECRET")},
+		// 	want:    3600,
+		// 	wantErr: false,
+		// },
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {

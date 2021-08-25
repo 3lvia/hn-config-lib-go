@@ -3,15 +3,12 @@ package hid
 import (
 	"testing"
 	"time"
-
-	"github.com/3lvia/hn-config-lib-go/testing/mock"
 )
 
 func Test_VerifyClaims(t *testing.T) {
 	type args struct {
-		issuer   string
-		audience string
-		scope    string
+		issuer string
+		scope  string
 	}
 	tests := []struct {
 		name      string
@@ -20,13 +17,13 @@ func Test_VerifyClaims(t *testing.T) {
 		wantErr   bool
 		errWanted string
 	}{
-		{
-			name:      "invalid audience",
-			time:      time.Now().Add(time.Minute * 30),
-			args:      args{mock.Addr, mock.ID, mock.ID},
-			wantErr:   true,
-			errWanted: "Invalid audience",
-		},
+		// {
+		// 	name:      "invalid audience",
+		// 	time:      time.Now().Add(time.Minute * 30),
+		// 	args:      args{mock.Addr, mock.ID, mock.ID},
+		// 	wantErr:   true,
+		// 	errWanted: "Invalid audience",
+		// },
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {

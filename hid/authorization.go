@@ -17,7 +17,7 @@ func (hid *HID) AuthorizeRequest(r *http.Request, audience, scope string) error 
 		return errors.Wrap(err, "while authenticating")
 	}
 
-	err = verifyClaims(token, hid.Addr, audience, scope)
+	err = verifyClaims(token, hid.Addr, scope)
 	if err != nil {
 		return errors.Wrap(err, "while verifying claims")
 	}
