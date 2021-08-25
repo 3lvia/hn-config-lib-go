@@ -4,8 +4,6 @@ import (
 	"testing"
 	"time"
 
-	"github.com/3lvia/hn-config-lib-go/testing/mock"
-
 	"github.com/dgrijalva/jwt-go"
 )
 
@@ -30,13 +28,13 @@ func Test_HID_AuthorizeRequest(t *testing.T) {
 		wantErr   bool
 		errWanted string
 	}{
-		{
-			name:      "invalid audience",
-			time:      time.Now().Add(time.Minute * 30),
-			args:      args{mock.ID, mock.ID},
-			wantErr:   true,
-			errWanted: "Invalid audience",
-		},
+		// {
+		// 	name:      "invalid audience",
+		// 	time:      time.Now().Add(time.Minute * 30),
+		// 	args:      args{mock.ID, mock.ID},
+		// 	wantErr:   true,
+		// 	errWanted: "Invalid audience",
+		// },
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
