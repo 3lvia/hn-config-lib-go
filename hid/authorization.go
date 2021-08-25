@@ -8,7 +8,7 @@ import (
 )
 
 // AuthorizeRequest takes an incoming request on behalf of the service and extracts the token from the "Authorization" header.
-// The token is then checked for authenticity, and then the claims of thet token is verified against the provided scope and audince.
+// The token is then checked for authenticity, and then the claims of that token is verified against the provided scope.
 func (hid *HID) AuthorizeRequest(r *http.Request, audience, scope string) error {
 	rawToken := r.Header.Get("Authorization")
 
