@@ -1,4 +1,4 @@
-package main // TODO: Rename to `package main` to running it locally.
+package demonstration // TODO: Rename to `package main` to running it locally.
 
 import (
 	"log"
@@ -9,12 +9,8 @@ import (
 	"github.com/3lvia/hn-config-lib-go/vault"
 )
 
-func main() { // TODO: Rename to `main()` before running it locally.
+func demonstration() { // TODO: Rename to `main()` before running it locally.
 	vaultDemonstration()
-
-	// 30-AUG-2021: Obsolete HID Support.
-	// elvidClientRequest := hidClientDemo()
-	// hidAPIdemo(elvidClientRequest)
 
 	/*
 		# Setup following environment variables.
@@ -32,7 +28,6 @@ func main() { // TODO: Rename to `main()` before running it locally.
 }
 
 func vaultDemonstration() {
-	// Make reusable vault item
 	vault, err := vault.New()
 	if err != nil {
 		log.Fatal(err)
@@ -43,7 +38,6 @@ func vaultDemonstration() {
 		log.Fatal(err)
 	}
 	log.Println("${VAULT_SECRET_PATH_VALUE}", secret)
-	// pp.Println("${VAULT_SECRET_PATH_VALUE}", secret)
 
 	log.Println("VaultSecret.GetData:\t\t", secret.GetData())
 	log.Println("VaultSecret.GetLeaseDuration:\t", secret.GetLeaseDuration())
