@@ -38,8 +38,8 @@ func (elvid ElvID) GetToken(user, secret string) (token *Token, err error) {
 	return
 }
 
-func (elvid ElvID) IsValidAccessToken(authorityBaseUrl, accessToken string) (isValidToken bool, err error) {
-	isValidToken = false
+func (elvid ElvID) IsValidAccessToken(authorityBaseUrl, accessToken string) (isTokenValid bool, err error) {
+	isTokenValid = false
 
 	const jwksUrlEndpoint = `/.well-known/openid-configuration/jwks`
 	jwksUrl := authorityBaseUrl + jwksUrlEndpoint
@@ -77,13 +77,13 @@ func (elvid ElvID) IsValidAccessToken(authorityBaseUrl, accessToken string) (isV
 	// Check if the token is valid.
 	if !token.Valid {
 		log.Fatalf("The token is not valid.")
-		isValidToken = false
+		isTokenValid = false
 	} else {
 		log.Println("The token is valid.")
-		isValidToken = true
+		isTokenValid = true
 	}
 
-	return isValidToken, err
+	return isTokenValid, err
 }
 
 // Append the raw token to the header of the provided request.
