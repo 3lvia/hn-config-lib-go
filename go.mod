@@ -13,5 +13,3 @@ require (
 	golang.org/x/sys v0.0.0-20200223170610-d5e6a3e2c0ae // indirect
 	google.golang.org/api v0.13.0
 )
-
-replace github.com/3lvia/hn-config-lib-go/elvid => ./elvid
