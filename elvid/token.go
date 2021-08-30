@@ -38,12 +38,12 @@ func (elvid ElvID) GetToken(user, secret string) (token *Token, err error) {
 	return
 }
 
-func (elvid ElvID) IsValidAccessToken(authorityBaseUrl, accessToken string) (isTokenValid bool, err error) {
+func (elvid ElvID) IsValidAccessToken(accessToken string) (isTokenValid bool, err error) {
 	isTokenValid = false
 
-	const jwksUrlEndpoint = `/.well-known/openid-configuration/jwks`
-	jwksUrl := authorityBaseUrl + jwksUrlEndpoint
-	log.Println("JWKS URL: ", jwksUrl)
+	// const jwksUrlEndpoint = `/.well-known/openid-configuration/jwks`
+	// jwksUrl := authorityBaseUrl + jwksUrlEndpoint
+	log.Println("JWKS URL: ", elvid.Configuration.JsonWebKeySetUri)
 
 	// Create the keyfunc options. Refresh the JWKS every hour and log errors.
 	refreshInterval := time.Hour
@@ -55,7 +55,7 @@ func (elvid ElvID) IsValidAccessToken(authorityBaseUrl, accessToken string) (isT
 	}
 
 	// Create the JWKS from the resource at the given URL.
-	jwks, err := keyfunc.Get(jwksUrl, options)
+	jwks, err := keyfunc.Get(elvid.Configuration.JsonWebKeySetUri, options)
 	if err != nil {
 		log.Fatalf("Failed to create JWKS from resource at the given URL.\nError: %s", err.Error())
 	}
