@@ -1,19 +1,31 @@
 package lib
 
 import (
-	"github.com/3lvia/hn-config-lib-go/hid"
-	"github.com/3lvia/hn-config-lib-go/vault"
 	"log"
 	"net/http"
+
+	"github.com/3lvia/hn-config-lib-go/hid"
+	"github.com/3lvia/hn-config-lib-go/vault"
 )
 
 // Example executes examples of the three core usecases of this package.
 func Example() {
 	mySecret := vaultExample()
 
-	myRequest := hidClientExample(mySecret)
+	// 30-AUG-2021: Obsolete HID Support.
+	// myRequest := hidClientDemo()
+	// hidAPIdemo(myRequest)
 
-	hidAPIexample(myRequest)
+	/*
+		# Setup following environment variables.
+		source_env ${HOME}
+		export ELVID_BASE_URL="https://elvid.test-elvia.io"
+		export VAULT_SECRET_PATH_VALUE="manual/kv/data/demonstration"
+		export ELVID_MACHINE_CLIENT_ID="00000000-0000-4000-8000-000000000000"
+		export ELVID_MACHINE_CLIENT_SECRET="...."
+	*/
+	elvidRequest := elvidClientDemonstration()
+	elvidApiDemonstration(elvidRequest)
 }
 
 // vaultExample represents the simplest way to get a secret from Vault.
