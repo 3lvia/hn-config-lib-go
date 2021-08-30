@@ -7,7 +7,6 @@ import (
 
 	"github.com/3lvia/hn-config-lib-go/elvid"
 	"github.com/3lvia/hn-config-lib-go/vault"
-	"github.com/k0kubun/pp"
 )
 
 func main() { // TODO: Rename to `main()` before running it locally.
@@ -29,8 +28,7 @@ func main() { // TODO: Rename to `main()` before running it locally.
 	elvidRequest := elvidMachineClientDemonstration()
 	elvidApiDemonstration(elvidRequest)
 
-	// elvidUserRequest := elvidUserClientDemonstration()
-	// elvidApiDemonstration(elvidUserRequest)
+	// elvidUserClientDemonstration()
 }
 
 func vaultDemonstration() {
@@ -45,7 +43,7 @@ func vaultDemonstration() {
 		log.Fatal(err)
 	}
 	log.Println("${VAULT_SECRET_PATH_VALUE}", secret)
-	pp.Println("${VAULT_SECRET_PATH_VALUE}", secret)
+	// pp.Println("${VAULT_SECRET_PATH_VALUE}", secret)
 
 	log.Println("VaultSecret.GetData:\t\t", secret.GetData())
 	log.Println("VaultSecret.GetLeaseDuration:\t", secret.GetLeaseDuration())

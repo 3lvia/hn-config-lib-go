@@ -1,114 +1,42 @@
-package lib
+package main
 
 import (
-	"log"
-	"net/http"
+	"os"
+	"testing"
 
-	"github.com/3lvia/hn-config-lib-go/hid"
-	"github.com/3lvia/hn-config-lib-go/vault"
+	"github.com/3lvia/hn-config-lib-go/testing/assert"
 )
 
-// Example executes examples of the three core usecases of this package.
-func Example() {
-	mySecret := vaultExample()
-
-	// 30-AUG-2021: Obsolete HID Support.
-	// myRequest := hidClientDemo()
-	// hidAPIdemo(myRequest)
-
-	/*
-		# Setup following environment variables.
-		source_env ${HOME}
-		export ELVID_BASE_URL="https://elvid.test-elvia.io"
-		export VAULT_SECRET_PATH_VALUE="manual/kv/data/demonstration"
-		export ELVID_MACHINE_CLIENT_ID="00000000-0000-4000-8000-000000000000"
-		export ELVID_MACHINE_CLIENT_SECRET="...."
-	*/
-	elvidRequest := elvidClientDemonstration()
-	elvidApiDemonstration(elvidRequest)
+func Test_EnvironmentVariables(t *testing.T) {
+	type arguments struct {
+		environmentVariableKey string
+	}
+	tests := []struct {
+		title              string
+		arguments          arguments
+		expectValue        bool
+		expectError        bool
+		expectErrorMessage string
+	}{
+		{
+			title:              "VAULT_ADDR",
+			arguments:          arguments{os.Getenv("VAULT_ADDR")},
+			expectValue:        false,
+			expectError:        false,
+			expectErrorMessage: "",
+		},
+		{
+			title:              "GITHUB_TOKEN",
+			arguments:          arguments{os.Getenv("GITHUB_TOKEN")},
+			expectValue:        false,
+			expectError:        false,
+			expectErrorMessage: "",
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.title, func(t *testing.T) {
+			_, variablePresent := os.LookupEnv(tt.arguments.environmentVariableKey)
+			assert.Result(t, variablePresent, tt.expectValue)
+		})
+	}
 }
-
-// vaultExample represents the simplest way to get a secret from Vault.
-// Requires, at a minimum, that env vars VAULT_ADDR and either GITHUB_TOKEN or the K8 related ones are set. See readme for more information.
-func vaultExample() *vault.Secret {
-	// Make reusable vault item
-	myVault, err := vault.New()
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	// Get a secret from the vault
-	mySecret, err := myVault.GetSecret("path/to/secret")
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	// Do something with the secret
-	return mySecret
-}
-
-// hidClientExample represents the client side of a request with HID authorization. User and secret for HID.GetToken may be from a wide variety of sources.
-// Requires, at a minimum, that env var HID_ADDR is set.
-func hidClientExample(mySecret *vault.Secret) *http.Request {
-	// Make reusable HID item
-	myHID, err := hid.New()
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	// Get a bearer token from HID
-	myToken, err := myHID.GetToken("username", mySecret.Data["key"])
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	// Make http.Request as usual
-	myRequest, err := http.NewRequest("POST", "api.url", nil)
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	// Add bearer token to http request header
-	myToken.AppendToRequest(myRequest)
-
-	// Send token to API with requests
-	return myRequest
-}
-
-// hidAPIexample represents the minimal way for an API to authorize an incoming request.
-// Requires, at a minimum, that env var HID_ADDR is set.
-func hidAPIexample(myRequest *http.Request) {
-	// Make reusable HID item
-	myHID, err := hid.New()
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	// Verify if token is valid. Invalid token throws an error
-	err = myHID.AuthorizeRequest(myRequest, "audience", "scope")
-	if err != nil {
-		log.Fatal("Token is invalid")
-	}
-
-	// Handle the request
-	log.Println("The request was successfull")
-}
-
-//func Test_initialize(t *testing.T)  {
-//
-//	//os.Setenv("VAULT_ADDR", "https://vault.3lvia.io")
-//	os.Setenv("VAULT_ADDR", "https://vault.elvia.io")
-//
-//	v, err := vault.New()
-//	if err != nil {
-//		t.Errorf("unexpected error: %v", err)
-//	}
-//
-//	secret, err := v.GetSecret("realtimeunits/kv/application")
-//
-//	if err != nil {
-//		t.Errorf("unexpected error: %v", err)
-//	}
-//
-//	_ = secret
-//}
