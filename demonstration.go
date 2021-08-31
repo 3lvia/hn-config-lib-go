@@ -19,6 +19,8 @@ func demonstration() { // TODO: Rename to `func main()` before running it locall
 		export ELVID_MACHINE_CLIENT_ID="00000000-0000-4000-8000-000000000000"
 		export ELVID_MACHINE_CLIENT_SECRET="...."
 		export ELVID_SCOPE="...."
+		export GITHUB_TOKEN="...."
+		export VAULT_ADDR="https://vault.dev-elvia.io"
 		export VAULT_SECRET_PATH_VALUE="manual/kv/data/demonstration"
 	*/
 	elvidRequest := elvidMachineClientDemonstration()
