@@ -64,3 +64,7 @@ func (elvid *ElvID) Configure(client libhttp.Client) error {
 
 	return nil
 }
+
+func (elvid *ElvID) GetJsonWebKeySetUri(client libhttp.Client) string {
+	return elvid.JsonWebKeySetUri
+}
