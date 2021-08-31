@@ -1,4 +1,4 @@
-package hid
+package elvid
 
 import (
 	"testing"
@@ -25,27 +25,30 @@ func Test_New(t *testing.T) {
 	assert.NoErr(t, err)
 
 	tests := []struct {
-		name      string
-		want      string
-		envslice  []string
-		wantErr   bool
-		errWanted string
+		title              string
+		expectValue        string
+		environmentSlice   []string
+		expectError        bool
+		expectErrorMessage string
 	}{
 		{
-			name:      "no environment variables",
-			wantErr:   true, // Fails successfully if HID is not running locally
-			errWanted: "missing env var HID_ADDR",
+			title:              "No Environment Variables",
+			expectError:        true, // Fails successfully if ElvID is not running locally
+			expectErrorMessage: "missing env var ELVID_BASE_URL",
 		},
 	}
 	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			replaceEnv(t, tt.envslice)
+		t.Run(tt.title, func(t *testing.T) {
+			// log.Println("------------------------------------")
+			// log.Println(tt.title)
+			replaceEnv(t, tt.environmentSlice)
 
 			_, err := New()
-			assert.WantErr(t, tt.wantErr, err, tt.errWanted)
+			assert.WantErr(t, tt.expectError, err, tt.expectErrorMessage)
 
 			err = env.Reset()
 			assert.NoErr(t, err)
+			// log.Println("------------------------------------")
 		})
 	}
 

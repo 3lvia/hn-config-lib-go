@@ -1,23 +1,17 @@
-package hid
+package elvid
 
 import (
-	"github.com/dgrijalva/jwt-go"
+	"github.com/golang-jwt/jwt/v4"
 	"github.com/pkg/errors"
 )
 
-// claims expl
 type claims struct {
 	ClientID string   `json:"client_id,omitempty"`
 	Scope    []string `json:"scope,omitempty"`
 	jwt.StandardClaims
 }
 
-// verifyClaims expl
-func verifyClaims(token *jwt.Token, issuer, audience, scope string) error {
-	if !token.Claims.(*claims).VerifyAudience(audience, false) {
-		return errors.New("Invalid audience")
-	}
-
+func verifyClaims(token *jwt.Token, issuer, scope string) error {
 	if !token.Claims.(*claims).VerifyIssuer(issuer, false) {
 		return errors.New("Invalid issuer")
 	}

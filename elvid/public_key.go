@@ -1,14 +1,14 @@
-package hid
+package elvid
 
 import (
 	"fmt"
 
-	"github.com/dgrijalva/jwt-go"
+	"github.com/golang-jwt/jwt/v4"
 	"github.com/pkg/errors"
 )
 
-// PKS (Public Key Set) stores a slice of public keys and their metadata
-type PKS struct {
+// PublicKeySet (Public Key Set) stores a slice of public keys and their metadata
+type PublicKeySet struct {
 	Keys []struct {
 		KeyID     string   `json:"kid"`
 		Algorithm string   `json:"alg"`
@@ -16,11 +16,13 @@ type PKS struct {
 	} `json:"keys"`
 }
 
-// newPKS renews the stored public key set for the external HID server
-func (hid *HID) newPKS() error {
-	err := hid.client.Get(hid.JWKSuri, &hid.PKS)
+// Renews the stored public key set for the external ElvID server.
+func (elvid *ElvID) newPublicKeySet() error {
+	// log.Println("elvid.JsonWebKeySetUri:\t", elvid.JsonWebKeySetUri)
+	// log.Println("elvid.PublicKeySet:\t\t", elvid.PublicKeySet)
+	err := elvid.client.Get(elvid.JsonWebKeySetUri, &elvid.PublicKeySet)
 	if err != nil {
-		return errors.Wrap(err, "while renewing HID public key set")
+		return errors.Wrap(err, "while renewing ElvID public key set")
 	}
 
 	return nil
@@ -42,7 +44,7 @@ func keyFunc(token *jwt.Token) (interface{}, error) {
 
 // getPemCert extracts the pem certificate from a jwt token
 func getPemCert(token *jwt.Token) (cert string, err error) {
-	for _, k := range tmpPKS.Keys {
+	for _, k := range tmpPublicKeySet.Keys {
 		if kid, ok := token.Header["kid"].(string); ok {
 			if kid == k.KeyID {
 				cert = "-----BEGIN CERTIFICATE-----\n" + k.X5C[0] + "\n-----END CERTIFICATE-----"
@@ -56,12 +58,12 @@ func getPemCert(token *jwt.Token) (cert string, err error) {
 	return "", errors.New("Unable to find corresponding kid")
 }
 
-var tmpPKS PKS // needs to be globally accessible because of how dgrijalva/jwt-go works. Not for caching; set before each use, nil after use.
+var tmpPublicKeySet PublicKeySet // needs to be globally accessible because of how dgrijalva/jwt-go works. Not for caching; set before each use, nil after use.
 
-func provideKeys(pks PKS) {
-	tmpPKS = pks
+func provideKeys(PublicKeySet PublicKeySet) {
+	tmpPublicKeySet = PublicKeySet
 }
 
 func revokeKeys() {
-	tmpPKS = PKS{nil}
+	tmpPublicKeySet = PublicKeySet{nil}
 }
