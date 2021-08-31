@@ -9,7 +9,7 @@ import (
 	"github.com/3lvia/hn-config-lib-go/vault"
 )
 
-func demonstration() { // TODO: Rename to `main()` before running it locally.
+func demonstration() { // TODO: Rename to `func main()` before running it locally.
 	vaultDemonstration()
 
 	/*
