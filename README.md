@@ -8,8 +8,8 @@ Golang implementation of helper libraries for Elvia organization, which supports
 
 Setup required environment variables.
 
-- `VAULT_ADDR`: The address of the HashiCorp Vault.
-- `GITHUB_TOKEN`: A GitHub access token.
+- `VAULT_ADDR`: The [address](https://www.vaultproject.io/docs/commands#vault_addr) of the HashiCorp Vault.
+- `GITHUB_TOKEN`: A GitHub [personal access token](https://docs.github.com/en/github/authenticating-to-github/keeping-your-account-and-data-secure/creating-a-personal-access-token).
 
 ## Demonstration
 
