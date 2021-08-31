@@ -41,10 +41,6 @@ func (elvid ElvID) GetToken(user, secret string) (token *Token, err error) {
 func (elvid ElvID) HasValidUserClientAccessToken(accessToken string) (isValid bool, err error) {
 	isValid = false
 
-	// const jwksUrlEndpoint = `/.well-known/openid-configuration/jwks`
-	// jwksUrl := authorityBaseUrl + jwksUrlEndpoint
-	log.Println("JWKS URL: ", elvid.Configuration.JsonWebKeySetUri)
-
 	// Create the keyfunc options. Refresh the JWKS every hour and log errors.
 	refreshInterval := time.Hour
 	options := keyfunc.Options{
@@ -63,24 +59,21 @@ func (elvid ElvID) HasValidUserClientAccessToken(accessToken string) (isValid bo
 	// Parse the JWT.
 	token, err := jwt.Parse(accessToken, jwks.KeyFunc)
 	if err != nil {
-		log.Fatalf("Failed to parse the JWT.\nError: %s", err.Error())
+		log.Printf("Failed to parse or validate the JWT.\nError: %s", err.Error())
 	}
-	log.Println()
-	log.Println("Claims:\t\t", token.Claims)
-	log.Println("Header:\t\t", token.Header)
-	log.Println("Method.Alg():\t", token.Method.Alg())
-	log.Println("Raw:\t\t", token.Raw)
-	log.Println("Signature:\t\t", token.Signature)
-	log.Println("Valid:\t\t", token.Valid)
-	log.Println()
+	// log.Println()
+	// log.Println("Claims:\t\t", token.Claims)
+	// log.Println("Header:\t\t", token.Header)
+	// log.Println("Method.Alg():\t", token.Method.Alg())
+	// log.Println("Raw:\t\t", token.Raw)
+	// log.Println("Signature:\t\t", token.Signature)
+	// log.Println("Valid:\t\t", token.Valid)
+	// log.Println()
 
-	// Check if the token is valid.
-	if !token.Valid {
-		log.Fatalf("The token is not valid.")
-		isValid = false
-	} else {
-		log.Println("The token is valid.")
+	if token.Valid {
 		isValid = true
+	} else {
+		isValid = false
 	}
 
 	return isValid, err
