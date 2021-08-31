@@ -4,7 +4,6 @@ import (
 	"net/http"
 	"os"
 
-	"github.com/3lvia/hn-config-lib-go/libhttp"
 	"github.com/3lvia/hn-config-lib-go/service"
 )
 
@@ -14,7 +13,7 @@ type IDManager interface {
 	GetToken(user, secret string) (token *Token, err error)
 	AuthorizeRequest(r *http.Request, scope string) error
 	HasValidUserClientAccessToken(accessToken string) (isValid bool, err error)
-	GetJsonWebKeySetUri(client libhttp.Client) string
+	GetJsonWebKeySetUri() string
 }
 
 // ElvID holds the configurations and keys necessary to communicate with the ElvID service.
