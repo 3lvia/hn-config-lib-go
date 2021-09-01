@@ -26,7 +26,7 @@ func demonstration() { // TODO: Rename to `func main()` before running it locall
 	elvidRequest := elvidMachineClientDemonstration()
 	elvidApiDemonstration(elvidRequest)
 
-	// elvidUserClientDemonstration()
+	elvidUserClientDemonstration()
 }
 
 func vaultDemonstration() {
@@ -52,19 +52,19 @@ func vaultDemonstration() {
 	log.Println("VaultSecret.GetRequestID:\t\t", secret.GetRequestID())
 }
 
-// func elvidUserClientDemonstration() *http.Request {
-// 	elvid, err := elvid.New()
-// 	if err != nil {
-// 		log.Fatal(err)
-// 	}
+func elvidUserClientDemonstration() {
+	elvid, err := elvid.New()
+	if err != nil {
+		log.Fatal(err)
+	}
 
-// 	isValidAccessToken, err := elvid.IsValidAccessToken(os.Getenv("ELVID_ACCESS_TOKEN"))
-// 	if err != nil {
-// 		log.Fatal(err)
-// 	}
+	isValidAccessToken, err := elvid.HasValidUserClientAccessToken(os.Getenv("ELVID_ACCESS_TOKEN"))
+	if err != nil {
+		log.Fatal(err)
+	}
 
-// 	log.Println("IsValidAccessToken:", isValidAccessToken)
-// }
+	log.Println("IsValidAccessToken:", isValidAccessToken)
+}
 
 func elvidMachineClientDemonstration() *http.Request {
 	elvid, err := elvid.New()
