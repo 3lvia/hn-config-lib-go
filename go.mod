@@ -8,7 +8,7 @@ require (
 	github.com/MicahParks/keyfunc v0.7.0
 	github.com/golang-jwt/jwt/v4 v4.0.0
 	github.com/pkg/errors v0.8.1
-	golang.org/x/net v0.0.0-20191126235420-ef20fe5d7933
+	golang.org/x/net v0.0.0-20191126235420-ef20fe5d7933 // indirect
 	golang.org/x/oauth2 v0.0.0-20190604053449-0f29369cfe45
 	golang.org/x/sys v0.0.0-20200223170610-d5e6a3e2c0ae // indirect
 	google.golang.org/api v0.13.0

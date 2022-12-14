@@ -12,7 +12,6 @@ import (
 	"github.com/3lvia/hn-config-lib-go/cert"
 
 	"github.com/pkg/errors"
-	"golang.org/x/net/http2"
 )
 
 // Client expl
@@ -33,7 +32,6 @@ type ClientHolder struct {
 // Takes none or more optional files to add as certificates to the client.
 func NewClient(certificates ...string) (*ClientHolder, error) {
 
-
 	var tlsConfig *tls.Config
 
 	if strings.ToLower(os.Getenv("INSECURE_SKIP_TLS_VERIFY")) == "true" {
@@ -50,7 +48,7 @@ func NewClient(certificates ...string) (*ClientHolder, error) {
 		}
 	}
 
-	transport := &http2.Transport{
+	transport := &http.Transport{
 		TLSClientConfig: tlsConfig,
 	}
 
