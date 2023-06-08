@@ -3,7 +3,7 @@ package vault
 import (
 	"testing"
 
-	"github.com/3lvia/hn-config-lib-go/env"
+	"github.com/3lvia/hn-config-lib-go/pkg/env"
 	"github.com/3lvia/hn-config-lib-go/testing/assert"
 	"github.com/3lvia/hn-config-lib-go/testing/mock"
 )

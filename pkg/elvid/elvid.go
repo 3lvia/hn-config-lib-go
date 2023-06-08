@@ -1,10 +1,9 @@
 package elvid
 
 import (
+	"github.com/3lvia/hn-config-lib-go/pkg/service"
 	"net/http"
 	"os"
-
-	"github.com/3lvia/hn-config-lib-go/service"
 )
 
 // IDManager represents a service that is able to provide clients with authorization tokens with the GetToken function,

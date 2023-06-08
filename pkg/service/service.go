@@ -1,7 +1,7 @@
 package service
 
 import (
-	"github.com/3lvia/hn-config-lib-go/libhttp"
+	"github.com/3lvia/hn-config-lib-go/pkg/libhttp"
 )
 
 // Service expl

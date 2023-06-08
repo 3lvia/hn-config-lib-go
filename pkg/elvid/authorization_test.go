@@ -8,7 +8,6 @@ import (
 
 	"github.com/3lvia/hn-config-lib-go/testing/assert"
 	"github.com/3lvia/hn-config-lib-go/testing/mock"
-	"github.com/golang-jwt/jwt/v4"
 )
 
 // at overrides time value for tests and restores default value after

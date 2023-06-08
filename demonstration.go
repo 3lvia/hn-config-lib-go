@@ -1,11 +1,11 @@
 package demonstration // TODO: Rename to `package main` to running it locally.
 
 import (
+	"github.com/3lvia/hn-config-lib-go/pkg/elvid"
 	"log"
 	"net/http"
 	"os"
 
-	"github.com/3lvia/hn-config-lib-go/elvid"
 	"github.com/3lvia/hn-config-lib-go/vault"
 )
 

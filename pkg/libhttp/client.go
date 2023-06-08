@@ -4,12 +4,11 @@ import (
 	"crypto/tls"
 	"encoding/json"
 	"fmt"
+	"github.com/3lvia/hn-config-lib-go/pkg/cert"
 	"io"
 	"net/http"
 	"os"
 	"strings"
-
-	"github.com/3lvia/hn-config-lib-go/cert"
 
 	"github.com/pkg/errors"
 )

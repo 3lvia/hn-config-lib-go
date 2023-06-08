@@ -3,7 +3,7 @@ package vault
 import (
 	"os"
 
-	"github.com/3lvia/hn-config-lib-go/libhttp"
+	"github.com/3lvia/hn-config-lib-go/pkg/libhttp"
 
 	"github.com/pkg/errors"
 )
@@ -61,7 +61,6 @@ func (vault *Vault) Configure(client libhttp.Client) error {
 	vault.Addr = addr
 	vault.GithubToken = githubToken
 	vault.Client = client
-
 
 	return nil
 }
